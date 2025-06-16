@@ -1,0 +1,55 @@
+body {
+  font-family: Georgia, serif;
+  line-height: 1.6;
+  background-color: #fff;
+  color: #000;
+  margin: 40px;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+
+h2 {
+  text-decoration: underline;
+  margin-top: 40px;
+}
+
+.date-right {
+  float: right;
+  font-style: italic;
+}
+
+.date-range {
+  font-style: italic;
+}
+
+ul {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+ul li {
+  margin-bottom: 5px;
+}
+
+.headshot-img {
+  width: 200px; 
+  height: auto; 
+}
+
+footer {
+  text-align: center;
+  margin-top: 50px;
+  padding: 15px;
+  font-size: 14px;
+  background-color: #f8f9fa;
+  font-style: italic;
+  margin-left: 50px !important;
+  margin-bottom: 10px !important;
+}
