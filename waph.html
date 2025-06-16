@@ -171,22 +171,71 @@
           <p><strong>Proficient Languages:</strong> Java, JavaScript, HTML, CSS, SQL, Python</p>
           <p><strong>Frameworks and Software:</strong> AngularJS, ReactJS, Python Django, Mendix, Microsoft Excel, PowerPoint, Word, ALTHA, Eclipse IDE, VS Code, Git, Gitlab, Gitlens, Figma, MATLAB, VBA, LabView</p><br>
           <h4>Programming Joke of the Minute</h4>
-          <div id="response"></div>
+          <div id="response"></div><br>
+          <div id="meme-container"></div>
         </div>
       </div>
         <hr>
-        <script>
-          function fetchJoke() {
-            $.get("https://v2.jokeapi.dev/joke/Programming?type=single", function (result) {
-              console.log("From jokeAPI: " + JSON.stringify(result));
-              $("#response").html("A programming joke of the minute: " + result.joke);
-            });
+      <script>
+        function fetchJoke() {
+          $.get("https://v2.jokeapi.dev/joke/Programming?type=single", function (result) {
+            console.log("From jokeAPI:", result);
+            $("#response").html("A programming joke of the minute: " + result.joke);
+          });
+        }
+      
+        function fetchMeme() {
+          $.get("https://meme-api.com/gimme/programmingmemes", function (meme) {
+            console.log("Meme fetched:", meme);
+            $("#meme-container").html(`
+              <h4>Programming Meme</h4>
+              <img src="${meme.url}" alt="${meme.title}" style="max-width:100%;">
+            `);
+          }).fail(function () {
+            console.error("Failed to fetch meme");
+            $("#meme-container").html(`<em>Could not load meme.</em>`);
+          });
+        }
+
+        function setCookie(name, value, days) {
+          const expires = new Date(Date.now() + days * 864e5).toUTCString();
+          document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+        }
+      
+        function getCookie(name) {
+          return document.cookie.split('; ').reduce((r, v) => {
+            const parts = v.split('=');
+            return parts[0] === name ? decodeURIComponent(parts[1]) : r
+          }, '');
+        }
+      
+        function checkVisit() {
+          const lastVisit = getCookie("lastVisit");
+          const now = new Date().toString();
+      
+          const messageElement = document.createElement("div");
+          messageElement.style.backgroundColor = "#e0f7fa";
+          messageElement.style.padding = "10px";
+          messageElement.style.margin = "10px 0";
+          messageElement.style.border = "1px solid #00796b";
+      
+          if (!lastVisit) {
+            messageElement.textContent = "Welcome to my homepage for the first time!";
+          } else {
+            messageElement.textContent = `Welcome back! Your last visit was ${lastVisit}`;
           }
-          // Call on page load
-          fetchJoke();     
-          // Then every 60 seconds
-          setInterval(fetchJoke, 60000);
-        </script>
+      
+          document.body.prepend(messageElement); 
+          setCookie("lastVisit", now, 365); //update last visit
+        }
+      
+        window.onload = function () {
+          fetchJoke();
+          fetchMeme();
+          checkVisit();
+          setInterval(fetchJoke, 60000); // Joke every minute
+        };
+      </script>
       </div>
     </div>
   </div>
